@@ -6,6 +6,7 @@ import {
 	Karla_700Bold,
 } from '@expo-google-fonts/karla';
 import { NativeBaseProvider } from 'native-base';
+import { THEME } from 'src/tokens';
 
 import { Loading } from '@components/Loading/Loading';
 
@@ -16,9 +17,9 @@ export default function App() {
 	});
 
 	return (
-		<NativeBaseProvider>
+		<NativeBaseProvider theme={THEME}>
 			<StatusBar style='auto' />
-			{!fontsLoaded ? (
+			{fontsLoaded ? (
 				<Text>Open up App.tsx to start working on your app!</Text>
 			) : (
 				<Loading />
