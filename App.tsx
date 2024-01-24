@@ -1,7 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import {
 	useFonts,
+	Karla_300Light,
 	Karla_400Regular,
 	Karla_700Bold,
 } from '@expo-google-fonts/karla';
@@ -9,9 +10,11 @@ import { NativeBaseProvider } from 'native-base';
 import { THEME } from 'src/tokens';
 
 import { Loading } from '@components/Loading/Loading';
+import { Routes } from '@routes/index';
 
 export default function App() {
 	let [fontsLoaded] = useFonts({
+		Karla_300Light,
 		Karla_400Regular,
 		Karla_700Bold,
 	});
@@ -19,11 +22,7 @@ export default function App() {
 	return (
 		<NativeBaseProvider theme={THEME}>
 			<StatusBar style='auto' />
-			{fontsLoaded ? (
-				<Text>Open up App.tsx to start working on your app!</Text>
-			) : (
-				<Loading />
-			)}
+			{fontsLoaded ? <Routes /> : <Loading />}
 		</NativeBaseProvider>
 	);
 }
