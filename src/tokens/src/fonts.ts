@@ -1,6 +1,7 @@
 export const fonts = {
 	body: 'Karla_400Regular',
 	heading: 'Karla_700Bold',
+  light: 'Karla_300Light'
 };
 
 export const fontSizes = {
