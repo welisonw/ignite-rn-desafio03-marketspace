@@ -1,19 +1,14 @@
 export const fonts = {
-	Karla: {
-		400: {
-			normal: 'Karla_400Regular',
-		},
-		700: {
-			bold: 'Karla_700Bold',
-		},
-	},
+	body: 'Karla_400Regular',
+	heading: 'Karla_700Bold',
 };
 
-
 export const fontSizes = {
-  xs: 12,
-  sm: 14,
-  md: 16,
-  lg: 20,
-  xl: 24,
+	xs: 12,
+	sm: 14,
+	md: 16,
+	lg: 20,
+	xl: 24,
+  '2xl': 28,
+  '3xl': 32, 
 };

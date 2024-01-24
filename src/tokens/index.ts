@@ -5,9 +5,6 @@ import { fontSizes } from './src/fonts';
 
 export const THEME = extendTheme({
 	colors,
-	fonts: {
-		heading: fonts.Karla[700].bold,
-		body: fonts.Karla[400].normal,
-	},
+  fonts,
 	fontSizes,
 });
