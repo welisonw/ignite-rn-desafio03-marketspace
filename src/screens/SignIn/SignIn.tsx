@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { LogBox, Platform } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { AuthNavigatorRoutesProps } from '@routes/Auth.routes';
 import {
 	Center,
 	Heading,
@@ -22,7 +23,6 @@ import { Eye, EyeClosed, Plus } from 'phosphor-react-native';
 434;
 import { Input } from '@components/Input/Input';
 import { Button } from '@components/Button/Button';
-import { AuthNavigatorRoutesProps } from '@routes/Auth.routes';
 
 LogBox.ignoreLogs(['NativeBase']);
 
@@ -33,6 +33,8 @@ interface FormDataProps {
 
 export const SignIn = () => {
 	const [showPassword, setShowPassword] = useState(false);
+
+	const navigation = useNavigation<AuthNavigatorRoutesProps>();
 
 	const { colors } = useTheme();
 
@@ -57,7 +59,7 @@ export const SignIn = () => {
 	}
 
 	function handleGoRegister() {
-		console.log('criar conta');
+		navigation.navigate('register');
 	}
 
 	return (
@@ -68,11 +70,13 @@ export const SignIn = () => {
 			<ScrollView
 				contentContainerStyle={{ flexGrow: 1 }}
 				showsVerticalScrollIndicator={false}
+        scrollEnabled={false}
 			>
 				<VStack
 					flex={1}
 					alignItems='center'
 					justifyContent='center'
+					paddingTop={16}
 					px={12}
 					backgroundColor='gray.200'
 					borderBottomRadius='3xl'
