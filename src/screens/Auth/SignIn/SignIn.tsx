@@ -19,7 +19,7 @@ import * as yup from 'yup';
 import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
-import { Eye, EyeClosed, Plus } from 'phosphor-react-native';
+import { Eye, EyeClosed } from 'phosphor-react-native';
 434;
 import { Input } from '@components/Input/Input';
 import { Button } from '@components/Button/Button';
