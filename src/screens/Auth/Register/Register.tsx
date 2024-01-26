@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { AuthNavigatorRoutesProps } from '@routes/Auth.routes';
+import { AuthNavigatorRoutesProps } from '@routes/auth/Auth.routes';
 import {
 	Center,
 	Heading,
@@ -55,10 +55,10 @@ export const Register = () => {
 		telephone: yup
 			.string()
 			.required('O campo telefone é obrigatório.')
-      .matches(
-        /^\+\d{2} \(\d{2}\) \d{4,5}-\d{4}$/,
-        'Número de telefone inválido.'
-      ),
+			.matches(
+				/^\+\d{2} \(\d{2}\) \d{4,5}-\d{4}$/,
+				'Número de telefone inválido.'
+			),
 		password: yup
 			.string()
 			.required('O campo senha é obrigatório.')
@@ -190,14 +190,13 @@ export const Register = () => {
 							control={control}
 							name='telephone'
 							render={({ field: { value, onChange } }) => (
-                <PhoneInput
-                  type='cel-phone'
-                  placeholder='Telefone'
-                  value={value}
-                  onChangeText={onChange}
+								<PhoneInput
+									type='cel-phone'
+									placeholder='Telefone'
+									value={value}
+									onChangeText={onChange}
 									errorMessage={errors.telephone?.message}
-                />
-        
+								/>
 							)}
 						/>
 
@@ -241,9 +240,7 @@ export const Register = () => {
 									InputRightElement={
 										<Pressable
 											padding={4}
-											onPress={() =>
-												setShowPassword(!showPassword)
-											}
+											onPress={() => setShowPassword(!showPassword)}
 										>
 											{showPassword ? (
 												<EyeClosed size={20} color={colors.gray[500]} />

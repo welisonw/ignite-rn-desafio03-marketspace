@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { LogBox, Platform } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { AuthNavigatorRoutesProps } from '@routes/Auth.routes';
+import { AuthNavigatorRoutesProps } from '@routes/auth/Auth.routes';
 import {
 	Center,
 	Heading,
@@ -70,7 +70,7 @@ export const SignIn = () => {
 			<ScrollView
 				contentContainerStyle={{ flexGrow: 1 }}
 				showsVerticalScrollIndicator={false}
-        scrollEnabled={false}
+				scrollEnabled={false}
 			>
 				<VStack
 					flex={1}

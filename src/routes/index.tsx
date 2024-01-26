@@ -1,6 +1,6 @@
 import { NavigationContainer } from '@react-navigation/native';
 
-import { AuthRoutes } from './Auth.routes';
+import { AuthRoutes } from './auth/Auth.routes';
 
 export const Routes = () => {
 	return (
