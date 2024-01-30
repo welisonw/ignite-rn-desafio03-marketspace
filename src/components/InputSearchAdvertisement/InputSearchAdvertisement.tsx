@@ -13,12 +13,16 @@ import {
 import { MagnifyingGlass, Sliders } from 'phosphor-react-native';
 
 import { Input } from '@components/Input/Input';
+import { ModalFilterAdvertisements } from '@components/ModalFilterAdvertisements/ModalFilterAdvertisements';
 
 LogBox.ignoreLogs(['NativeBase']);
 
 export const InputSearchAdvertisement = () => {
 	const [isSearching, setIsSearching] = useState(false);
 
+	const [showModal, setShowModal] = useState(false);
+
+  console.log(showModal)
 	const { colors } = useTheme();
 
 	function handleSearch() {
@@ -27,6 +31,7 @@ export const InputSearchAdvertisement = () => {
 
 	function handleOpenModal() {
 		console.log('Modal aberto');
+    setShowModal(true);
 	}
 
 	return (
@@ -73,6 +78,13 @@ export const InputSearchAdvertisement = () => {
 					</HStack>
 				}
 			/>
+
+			{showModal && (
+				<ModalFilterAdvertisements
+					isOpen={showModal}
+					onClose={() => setShowModal(false)}
+				/>
+			)}
 		</VStack>
 	);
 };
