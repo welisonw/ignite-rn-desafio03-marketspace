@@ -6,7 +6,7 @@ import { ProductDTO } from '@dtos/ProductDTO';
 import { HomeHeader } from '@components/HomeHeader/HomeHeader';
 import { CardInfoMyAdvertisements } from '@components/CardInfoMyAdvertisements/CardInfoMyAdvertisements';
 import { InputSearchAdvertisement } from '@components/InputSearchAdvertisement/InputSearchAdvertisement';
-import { CardAdvertisements } from '@components/CardAdvertisements/CardAdvertisements';
+import { CardAdvertisement } from '@components/CardAdvertisement/CardAdvertisement';
 
 export const Home = () => {
 	const [products, setProducts] = useState<ProductDTO[]>([
@@ -124,7 +124,7 @@ export const Home = () => {
 				data={products}
 				keyExtractor={item => item.id}
 				renderItem={({ item, index }) => (
-					<CardAdvertisements product={item} hideAvatar={false} />
+					<CardAdvertisement product={item} hideAvatar={false} />
 				)}
 				showsVerticalScrollIndicator={false}
 				numColumns={2}

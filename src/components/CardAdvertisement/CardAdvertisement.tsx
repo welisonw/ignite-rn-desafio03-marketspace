@@ -4,16 +4,16 @@ import { UserPhoto } from '@components/UserPhoto/UserPhoto';
 import { ProductConditionTag } from '@components/ProductConditionTag/ProductConditionTag';
 import { ProductDTO } from '@dtos/ProductDTO';
 
-interface CardAdvertisementsProps {
+interface CardAdvertisementProps {
 	product: ProductDTO;
 	hideAvatar: boolean;
 }
 
-export const CardAdvertisements = ({
+export const CardAdvertisement = ({
 	product,
 	hideAvatar,
-}: CardAdvertisementsProps) => {
-	function handleGoDetailsAdvertisements(id: string) {
+}: CardAdvertisementProps) => {
+	function handleGoDetailsAdvertisement(id: string) {
 		console.log('ir para screen detalhes do produto', id);
 	}
 
@@ -21,7 +21,7 @@ export const CardAdvertisements = ({
 		<Pressable
 			flex={1}
 			marginBottom={6}
-			onPress={() => handleGoDetailsAdvertisements(product.id)}
+			onPress={() => handleGoDetailsAdvertisement(product.id)}
 		>
 			<View marginBottom={1}>
 				<Image
