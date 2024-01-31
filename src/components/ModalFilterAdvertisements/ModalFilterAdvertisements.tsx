@@ -121,12 +121,14 @@ export const ModalFilterAdvertisements = ({ ...props }: IModalProps) => {
 									<ProductConditionSelectionTag
 										title='novo'
 										variant='GrayLight'
+                    fontSize='xs'
 										isSelected={value}
 										onPress={() => onChange(true)}
 									/>
 									<ProductConditionSelectionTag
 										title='usado'
 										variant='GrayLight'
+                    fontSize='xs'
 										isSelected={!value}
 										onPress={() => onChange(false)}
 									/>
