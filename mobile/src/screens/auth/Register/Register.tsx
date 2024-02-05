@@ -11,6 +11,7 @@ import {
 	useTheme,
 	Pressable,
 	View,
+	Skeleton,
 } from 'native-base';
 import { Platform } from 'react-native';
 
@@ -22,11 +23,12 @@ import LogoSVG from '@assets/logo.svg';
 
 import { Eye, EyeClosed, PencilSimpleLine } from 'phosphor-react-native';
 
+import * as ImagePicker from 'expo-image-picker';
+
 import { UserPhoto } from '@components/UserPhoto/UserPhoto';
 import { Input } from '@components/Input/Input';
 import { Button } from '@components/Button/Button';
 import { PhoneInput } from '@components/PhoneInput/PhoneInput';
-import { TextInputMask } from 'react-native-masked-text';
 
 // tamanho avatar
 const PHOTO_SIZE = 88;
@@ -40,6 +42,10 @@ interface FormDataProps {
 }
 
 export const Register = () => {
+	const [photoIsLoading, setPhotoIsLoading] = useState(true);
+	const [userPhoto, setUserPhoto] = useState(
+		'https://thumbs.dreamstime.com/b/vector-de-perfil-avatar-predeterminado-foto-usuario-medios-sociales-icono-183042379.jpg'
+	);
 	const [showPassword, setShowPassword] = useState(false);
 
 	const navigation = useNavigation<AuthNavigatorRoutesProps>();
@@ -77,8 +83,27 @@ export const Register = () => {
 		resolver: yupResolver(registerSchema),
 	});
 
-	function handleUserPhotoSelect() {
-		console.log('selecionar foto');
+	async function handleUserPhotoSelect() {
+		setPhotoIsLoading(true);
+
+		try {
+			const photoSelected = await ImagePicker.launchImageLibraryAsync({
+				mediaTypes: ImagePicker.MediaTypeOptions.Images,
+				quality: 1,
+				aspect: [4, 4],
+				allowsEditing: true,
+				selectionLimit: 1,
+			});
+
+			if (photoSelected.canceled) return null;
+
+			if (photoSelected.assets[0].uri)
+				setUserPhoto(photoSelected.assets[0].uri);
+		} catch (error) {
+			throw error;
+		} finally {
+			setPhotoIsLoading(false);
+		}
 	}
 
 	function handleRegister() {
@@ -130,16 +155,25 @@ export const Register = () => {
 					</Center>
 
 					<View marginBottom={4}>
-						<UserPhoto
-							source={{
-								uri: 'https://thumbs.dreamstime.com/b/vector-de-perfil-avatar-predeterminado-foto-usuario-medios-sociales-icono-183042379.jpg',
-							}}
-							alt='Foto do usuário'
-							size={PHOTO_SIZE}
-							borderWidth={3}
-							borderColor='blue.300'
-							position='relative'
-						/>
+						{photoIsLoading ? (
+							<Skeleton
+								size={PHOTO_SIZE}
+								rounded='full'
+								startColor='gray.400'
+								endColor='gray.300'
+							/>
+						) : (
+							<UserPhoto
+								source={{
+									uri: userPhoto,
+								}}
+								alt='Foto do usuário'
+								size={PHOTO_SIZE}
+								borderWidth={3}
+								borderColor='blue.300'
+								position='relative'
+							/>
+						)}
 
 						<Pressable
 							position='absolute'
