@@ -13,7 +13,7 @@ import {
 	View,
 	Skeleton,
 } from 'native-base';
-import { Platform } from 'react-native';
+import { Alert, Platform } from 'react-native';
 
 import * as yup from 'yup';
 import { Controller, useForm } from 'react-hook-form';
@@ -24,6 +24,7 @@ import LogoSVG from '@assets/logo.svg';
 import { Eye, EyeClosed, PencilSimpleLine } from 'phosphor-react-native';
 
 import * as ImagePicker from 'expo-image-picker';
+import * as FileSystem from 'expo-file-system';
 
 import { UserPhoto } from '@components/UserPhoto/UserPhoto';
 import { Input } from '@components/Input/Input';
@@ -97,8 +98,27 @@ export const Register = () => {
 
 			if (photoSelected.canceled) return null;
 
-			if (photoSelected.assets[0].uri)
-				setUserPhoto(photoSelected.assets[0].uri);
+			if (photoSelected.assets[0].uri) {
+				const photoInfo = await FileSystem.getInfoAsync(
+					photoSelected.assets[0].uri
+				);
+
+				if (photoInfo.exists) {
+					// conversão tamanho da foto de bytes (B) para megabytes (MB)
+					const PHOTO_SIZE_IN_MB = photoInfo.size / 1024 / 1024;
+
+          if (PHOTO_SIZE_IN_MB > 5) {
+            return Alert.alert(
+              "Tamanho máximo excedido",
+              "Essa imagem é muito grande. Escolha uma de até 5MB."
+            );
+          }
+
+          setUserPhoto(photoSelected.assets[0].uri);
+				}
+        
+        
+			}
 		} catch (error) {
 			throw error;
 		} finally {
