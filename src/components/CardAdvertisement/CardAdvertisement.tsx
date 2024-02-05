@@ -56,7 +56,10 @@ export const CardAdvertisement = ({
 						/>
 					)}
 
-					<ProductConditionTag isNew={product.is_new} />
+					<ProductConditionTag
+						isNew={product.is_new}
+						variantBgColor={product.is_new ? 'blueDark' : 'grayDark'}
+					/>
 				</HStack>
 			</View>
 
