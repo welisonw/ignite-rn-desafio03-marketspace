@@ -1,5 +1,6 @@
+import { useNavigation } from '@react-navigation/native';
 import {
-	HStack,
+  HStack,
 	Heading,
 	Pressable,
 	Text,
@@ -7,14 +8,18 @@ import {
 	useTheme,
 } from 'native-base';
 
-import { ArrowRight, Tag } from 'phosphor-react-native';
+import { AppTabNavigationRoutesProps } from '@routes/app/Tabs.routes';
 
-function handleGoMyAdvertisements() {
-	console.log('Ir para screen meus anúncios');
-}
+import { ArrowRight, Tag } from 'phosphor-react-native';
 
 export const CardInfoMyAdvertisements = () => {
 	const { colors } = useTheme();
+
+	const navigation = useNavigation<AppTabNavigationRoutesProps>();
+
+	function handleGoMyAdvertisements() {
+		navigation.navigate('myadvertisements');
+	}
 
 	return (
 		<VStack marginBottom={8}>
