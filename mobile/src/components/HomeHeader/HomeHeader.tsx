@@ -1,14 +1,19 @@
 import { HStack, Heading, Text, VStack, useTheme } from 'native-base';
 
+import { useNavigation } from '@react-navigation/native';
+import { AppStackNavigationRoutesProps } from '@routes/app/Stack.routes';
+
 import { UserPhoto } from '@components/UserPhoto/UserPhoto';
 import { Button } from '@components/Button/Button';
 import { Plus } from 'phosphor-react-native';
 
 export const HomeHeader = () => {
+	const navigation = useNavigation<AppStackNavigationRoutesProps>();
+
 	const { colors } = useTheme();
 
 	function handleCreateNewAdvertisement() {
-		console.log('Criar novo anúncio');
+		navigation.navigate('createoreditadvertisement');
 	}
 
 	return (

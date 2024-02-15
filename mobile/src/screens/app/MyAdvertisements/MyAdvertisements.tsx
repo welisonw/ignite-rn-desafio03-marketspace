@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { TouchableOpacity } from 'react-native';
 import {
 	Box,
-	Center,
 	FlatList,
 	HStack,
 	Heading,
@@ -13,9 +12,14 @@ import {
 	useTheme,
 } from 'native-base';
 
-import { Plus } from 'phosphor-react-native';
-import { CardAdvertisement } from '@components/CardAdvertisement/CardAdvertisement';
+import { useNavigation } from '@react-navigation/native';
+import { AppStackNavigationRoutesProps } from '@routes/app/Stack.routes';
+
 import { ProductDTO } from '@dtos/ProductDTO';
+
+import { Plus } from 'phosphor-react-native';
+
+import { CardAdvertisement } from '@components/CardAdvertisement/CardAdvertisement';
 
 type filteredAdvertisementsProps = 'all' | 'active' | 'inactive';
 
@@ -126,10 +130,12 @@ export const MyAdvertisements = () => {
 	const [filteredAdvertisements, setFilteredAdvertisement] =
 		useState<filteredAdvertisementsProps>('all');
 
+	const navigation = useNavigation<AppStackNavigationRoutesProps>();
+
 	const { colors } = useTheme();
 
 	function handleCreateNewAdvertisement() {
-		console.log('criar novo anúncio.');
+		navigation.navigate('createoreditadvertisement');
 	}
 
 	return (
@@ -154,9 +160,16 @@ export const MyAdvertisements = () => {
 				</TouchableOpacity>
 			</HStack>
 
-			<HStack alignItems='center' justifyContent='space-between' marginBottom={5}>
+			<HStack
+				alignItems='center'
+				justifyContent='space-between'
+				marginBottom={5}
+			>
 				<Text fontFamily='body' fontSize='sm' color='gray.600'>
-					{products.length} {products.length > 1 || products.length === 0 ? 'anúncios' : 'anúncio'}
+					{products.length}{' '}
+					{products.length > 1 || products.length === 0
+						? 'anúncios'
+						: 'anúncio'}
 				</Text>
 
 				<Box maxWidth={130}>
@@ -190,7 +203,7 @@ export const MyAdvertisements = () => {
 				</Box>
 			</HStack>
 
-      <FlatList
+			<FlatList
 				data={products}
 				keyExtractor={item => item.id}
 				renderItem={({ item, index }) => (
