@@ -13,9 +13,11 @@ import { ProductInformation } from '@components/ProductInformation/ProductInform
 import { useState } from 'react';
 import { ProductDTO } from '@dtos/ProductDTO';
 import { Button } from '@components/Button/Button';
+import { UserDTO } from '@dtos/UserDTO';
 
 export const DetailsAdvertisement = () => {
 	const [product, setProduct] = useState<ProductDTO>({} as ProductDTO);
+  const [user, setUser] = useState<UserDTO>({} as UserDTO)
 
 	const sliders = [
 		{
@@ -52,7 +54,7 @@ export const DetailsAdvertisement = () => {
 	async function handleContactUs() {
 		const message = `Olá! Vi seu anúncio no Marketspace do produto ${product.name}. Ainda está disponível?`;
 
-		const supportedURL = `https://wa.me/${product.user.tel}?text=${message}`;
+		const supportedURL = `https://wa.me/${user.tel}?text=${message}`;
 
 		const supported = await Linking.canOpenURL(supportedURL);
 
