@@ -26,7 +26,7 @@ export const CarouselComponent = ({ product }: CarouselProps) => {
 						<Image
 							source={{ uri: item.path }}
 							alt='Foto do produto anunciado'
-							resizeMode='contain'
+							resizeMode='stretch'
 							width={width}
 							height={280}
 						/>
@@ -37,7 +37,7 @@ export const CarouselComponent = ({ product }: CarouselProps) => {
 			/>
 
 			{/* Dot / Pagination */}
-			<HStack position='absolute' w='full' bottom={8} px='2px' space={1}>
+			<HStack position='absolute' w='full' bottom={1} px='2px' space={1}>
 				{product.map((_, index) => {
 					return (
 						<View
