@@ -11,6 +11,7 @@ import {
 	Text,
 	VStack,
 	useTheme,
+	useToast,
 } from 'native-base';
 
 import LogoSVG from '@assets/logo.svg';
@@ -23,6 +24,8 @@ import { Eye, EyeClosed } from 'phosphor-react-native';
 434;
 import { Input } from '@components/Input/Input';
 import { Button } from '@components/Button/Button';
+import { useAuthContext } from '@hooks/useAuthContext';
+import { AppError } from '@utils/AppError';
 
 LogBox.ignoreLogs(['NativeBase']);
 
@@ -36,7 +39,11 @@ export const SignIn = () => {
 
 	const navigation = useNavigation<AuthNavigatorRoutesProps>();
 
+	const { signIn } = useAuthContext();
+
 	const { colors } = useTheme();
+
+	const toast = useToast();
 
 	const signInSchema = yup.object({
 		email: yup
@@ -54,8 +61,22 @@ export const SignIn = () => {
 		resolver: yupResolver(signInSchema),
 	});
 
-	function handleSignIn() {
-		console.log('logado');
+	async function handleSignIn({ email, password }: FormDataProps) {
+		try {
+			await signIn(email, password);
+		} catch (error) {
+			const isAppError = error instanceof AppError;
+
+			const title = isAppError
+				? error.message
+				: 'Não foi possível acessar a conta. Tente novamente mais tarde.';
+
+			toast.show({
+				title,
+				placement: 'top',
+				bgColor: 'red.500',
+			});
+		}
 	}
 
 	function handleGoRegister() {
