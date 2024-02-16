@@ -27,7 +27,7 @@ export const PaymentMethods = ({ paymentMethod }: PaymentMethodProps) => {
 			{paymentMethod.key === 'card' && (
 				<CreditCard size={18} color={colorGray} />
 			)}
-			{paymentMethod.key === 'boleto' && <Bank size={18} color={colorGray} />}
+			{paymentMethod.key === 'deposit' && <Bank size={18} color={colorGray} />}
 
 			<Text fontFamily='body' fontSize='sm' color='gray.600'>
 				{paymentMethod.name}
