@@ -1,5 +1,5 @@
 import { PaymentMethodDTO } from './PaymentMethodsDTO';
-import { UserDTO } from './UserDTO';
+// import { UserDTO } from './UserDTO';
 import { ProductImagesDTO } from './ProductImagesDTO';
 
 export interface ProductDTO {
@@ -10,8 +10,8 @@ export interface ProductDTO {
 	price: number;
 	accept_trade: boolean;
 	payment_methods: PaymentMethodDTO[];
-	user_id: string;
-	user: UserDTO;
+	// user_id: string;
+	// user: UserDTO;
 	is_active: boolean;
 	product_images: ProductImagesDTO[];
 }

@@ -18,14 +18,6 @@ export const Home = () => {
 			price: 509.99,
 			accept_trade: false,
 			payment_methods: [{ key: 'boleto', name: 'Boleto' }],
-			user_id: '123',
-			user: {
-				avatar: '',
-				email: '',
-				id: '123',
-				name: 'João',
-				tel: '1234567890',
-			},
 			is_active: true,
 			product_images: [
 				{
@@ -43,14 +35,6 @@ export const Home = () => {
 			price: 409.99,
 			accept_trade: true,
 			payment_methods: [{ key: 'boleto', name: 'Boleto' }],
-			user_id: '123',
-			user: {
-				avatar: '',
-				email: '',
-				id: '123',
-				name: 'João',
-				tel: '1234567890',
-			},
 			is_active: true,
 			product_images: [
 				{
@@ -68,14 +52,6 @@ export const Home = () => {
 			price: 509.99,
 			accept_trade: false,
 			payment_methods: [{ key: 'boleto', name: 'Boleto' }],
-			user_id: '123',
-			user: {
-				avatar: '',
-				email: '',
-				id: '123',
-				name: 'João',
-				tel: '1234567890',
-			},
 			is_active: true,
 			product_images: [
 				{
@@ -93,14 +69,6 @@ export const Home = () => {
 			price: 409.99,
 			accept_trade: true,
 			payment_methods: [{ key: 'boleto', name: 'Boleto' }],
-			user_id: '123',
-			user: {
-				avatar: '',
-				email: '',
-				id: '123',
-				name: 'João',
-				tel: '1234567890',
-			},
 			is_active: false,
 			product_images: [
 				{
