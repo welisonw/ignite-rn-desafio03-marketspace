@@ -22,7 +22,7 @@ export const Checkbox = ({
 			alignItems='center'
 			marginBottom={2}
 			borderColor={colors.gray[400]}
-			defaultIsChecked
+			isChecked={isChecked}
 			_checked={{
 				background: colors.blue[300],
 				borderColor: colors.blue[300],
