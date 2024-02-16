@@ -3,10 +3,14 @@ import {
 	NativeStackNavigationProp,
 } from '@react-navigation/native-stack';
 
+import { ProductImagesDTO } from '@dtos/ProductImagesDTO';
+import { PaymentMethodDTO } from '@dtos/PaymentMethodsDTO';
+
 import { AppTabNavigationRoutesProps, TabRoutes } from './Tabs.routes';
 
 import { DetailsAdvertisement } from '@screens/app/DetailsAdvertisement/DetailsAdvertisement';
 import { CreateOrEditAdvertisement } from '@screens/app/CreateOrEditAdvertisement/CreateOrEditAdvertisement';
+import { Preview } from '@screens/app/Preview/Preview';
 
 type AppStackRoutes = {
   homeTab: AppTabNavigationRoutesProps;
@@ -14,6 +18,15 @@ type AppStackRoutes = {
 		id: string;
 	};
 	createoreditadvertisement: undefined;
+	preview: {
+		images: ProductImagesDTO[];
+		name: string;
+		description: string;
+		is_new: boolean;
+		price: number;
+		accept_trade: boolean;
+		payment_methods: PaymentMethodDTO[];
+	};
 };
 
 export type AppStackNavigationRoutesProps =
@@ -30,6 +43,7 @@ export const StackRoutes = () => {
 				name='createoreditadvertisement'
 				component={CreateOrEditAdvertisement}
 			/>
+			<Screen name='preview' component={Preview} />
 		</Navigator>
 	);
 };
