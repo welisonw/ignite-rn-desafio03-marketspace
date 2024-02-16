@@ -33,7 +33,7 @@ const modalFilterAdvertisementsSchema = yup.object({
 	accept_trade: yup.boolean().required(),
 	payment_methods: yup
 		.array()
-		.min(0, 'Selecione um meio de pagamento.')
+		.min(1, 'Selecione um meio de pagamento.')
 		.required('Selecione um meio de pagamento.'),
 });
 
@@ -121,14 +121,14 @@ export const ModalFilterAdvertisements = ({ ...props }: IModalProps) => {
 									<ProductConditionSelectionTag
 										title='novo'
 										variant='GrayLight'
-                    fontSize='xs'
+										fontSize='xs'
 										isSelected={value}
 										onPress={() => onChange(true)}
 									/>
 									<ProductConditionSelectionTag
 										title='usado'
 										variant='GrayLight'
-                    fontSize='xs'
+										fontSize='xs'
 										isSelected={!value}
 										onPress={() => onChange(false)}
 									/>
