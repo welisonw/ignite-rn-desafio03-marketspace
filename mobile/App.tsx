@@ -11,6 +11,7 @@ import { THEME } from 'src/tokens';
 
 import { Loading } from '@components/Loading/Loading';
 import { Routes } from '@routes/index';
+import { AuthContextProvider } from '@contexts/AuthContext';
 
 export default function App() {
 	let [fontsLoaded] = useFonts({
@@ -20,10 +21,12 @@ export default function App() {
 	});
 
 	return (
-		<NativeBaseProvider theme={THEME}>
-			<StatusBar style='auto' />
-			{fontsLoaded ? <Routes /> : <Loading />}
-		</NativeBaseProvider>
+		<AuthContextProvider>
+			<NativeBaseProvider theme={THEME}>
+				<StatusBar style='auto' />
+				{fontsLoaded ? <Routes /> : <Loading />}
+			</NativeBaseProvider>
+		</AuthContextProvider>
 	);
 }
 
