@@ -34,6 +34,7 @@ import {
 import { Input } from '@components/Input/Input';
 import { Checkbox } from '@components/Checkbox/Checkbox';
 import { Button } from '@components/Button/Button';
+import { AppStackNavigationRoutesProps } from '@routes/app/Stack.routes';
 
 const CreateOrEditAdvertisementSchema = yup.object({
 	name: yup.string().required('O título do anúncio é obrigatório.'),
@@ -43,7 +44,6 @@ const CreateOrEditAdvertisementSchema = yup.object({
 	accept_trade: yup.boolean().required(),
 	payment_methods: yup
 		.array()
-		.of(yup.string())
 		.min(1, 'Selecione um meio de pagamento.')
 		.required('Selecione um meio de pagamento.'),
 });
@@ -67,7 +67,7 @@ export const CreateOrEditAdvertisement = () => {
 	]);
 	const [photoIsLoading, setPhotoIsLoading] = useState(false);
 
-	const navigation = useNavigation();
+	const navigation = useNavigation<AppStackNavigationRoutesProps>();
 
 	const { colors } = useTheme();
 
@@ -116,12 +116,22 @@ export const CreateOrEditAdvertisement = () => {
 		accept_trade,
 		payment_methods,
 	}: FormDataProps) {
-		console.log(name);
-		console.log(description);
-		console.log(is_new);
-		console.log(price);
-		console.log(accept_trade);
+		const selectedPaymentMethods = PaymentMethods.filter(method =>
+			payment_methods.includes(method.key)
+		);
+
+		navigation.navigate('preview', {
+			images,
+			name,
+			description,
+			is_new,
+			price,
+			accept_trade,
+			payment_methods: selectedPaymentMethods,
+		});
+
 		console.log(payment_methods);
+		console.log(selectedPaymentMethods);
 	}
 
 	return (
@@ -159,7 +169,7 @@ export const CreateOrEditAdvertisement = () => {
 
 						<FlatList
 							data={images}
-							keyExtractor={item => item.id!}
+							keyExtractor={item => item.id}
 							renderItem={({ item }) =>
 								photoIsLoading ? (
 									<Skeleton
@@ -188,7 +198,7 @@ export const CreateOrEditAdvertisement = () => {
 												right: 0,
 												padding: 2,
 											}}
-											onPress={() => handleRemovePhoto(item.id!)}
+											onPress={() => handleRemovePhoto(item.id)}
 										>
 											<XCircle
 												size={16}
@@ -360,13 +370,14 @@ export const CreateOrEditAdvertisement = () => {
 										{PaymentMethods.map(method => (
 											<Checkbox
 												key={method.key}
-												value={method.key}
+												value={value ? method.key : ''}
 												label={method.name}
 												isChecked={value.includes(method.key)}
 												onChange={isChecked => {
 													const updatedValue = isChecked
 														? [...value, method.key]
 														: value.filter(item => item !== method.key);
+
 													onChange(updatedValue);
 												}}
 												errorMessage={errors.payment_methods?.message}
