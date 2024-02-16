@@ -1,12 +1,13 @@
 import { HStack, Heading, ScrollView, Text, VStack, View } from 'native-base';
 
+import { ProductDTO } from '@dtos/ProductDTO';
+
 import { UserPhoto } from '@components/UserPhoto/UserPhoto';
 import { ProductConditionTag } from '@components/ProductConditionTag/ProductConditionTag';
-import { ProductDTO } from '@dtos/ProductDTO';
 import { PaymentMethods } from '@components/PaymentMethods/PaymentMethods';
 
 interface ProductInformationProps {
-	product: ProductDTO;
+	product: Omit<ProductDTO, 'id' | 'is_active' >;
 }
 
 export const ProductInformation = ({ product }: ProductInformationProps) => {
@@ -74,16 +75,21 @@ export const ProductInformation = ({ product }: ProductInformationProps) => {
 				</HStack>
 
 				<VStack>
-					<Text fontFamily='heading' fontSize='sm' color='gray.600'>
+					<Text
+						fontFamily='heading'
+						fontSize='sm'
+						color='gray.600'
+						marginBottom={2}
+					>
 						Meios de pagamento:
 					</Text>
 
-					{product.payment_methods &&
-						product.payment_methods.map(payment_method => (
-							<View marginBottom={6}>
-								<PaymentMethods paymentMethod={payment_method} />
-							</View>
-						))}
+					{product.payment_methods.map(payment_method => (
+						<PaymentMethods
+							key={payment_method.key}
+							paymentMethod={payment_method}
+						/>
+					))}
 				</VStack>
 			</VStack>
 		</ScrollView>
