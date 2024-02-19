@@ -14,7 +14,7 @@ import {
 	Skeleton,
 	useToast,
 } from 'native-base';
-import { Alert, Platform } from 'react-native';
+import { Platform } from 'react-native';
 
 import * as yup from 'yup';
 import { Controller, useForm } from 'react-hook-form';
@@ -34,6 +34,8 @@ import { PhoneInput } from '@components/PhoneInput/PhoneInput';
 
 import { AppError } from '@utils/AppError';
 
+import DEFAULT_USER_PHOTO from '@assets/default-user-photo.png';
+
 // tamanho avatar
 const PHOTO_SIZE = 88;
 
@@ -46,7 +48,7 @@ interface FormDataProps {
 }
 
 export const Register = () => {
-	const [photoIsLoading, setPhotoIsLoading] = useState(true);
+  const [photoIsLoading, setPhotoIsLoading] = useState(false);
 	const [userPhoto, setUserPhoto] = useState(
 		{} as ImagePicker.ImagePickerAsset
 	);
@@ -200,9 +202,7 @@ export const Register = () => {
 							/>
 						) : (
 							<UserPhoto
-								source={{
-									uri: userPhoto.uri,
-								}}
+								source={userPhoto.uri ? userPhoto.uri : DEFAULT_USER_PHOTO}
 								alt='Foto do usuário'
 								size={PHOTO_SIZE}
 								borderWidth={3}
