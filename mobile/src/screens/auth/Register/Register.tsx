@@ -12,6 +12,7 @@ import {
 	Pressable,
 	View,
 	Skeleton,
+	useToast,
 } from 'native-base';
 import { Alert, Platform } from 'react-native';
 
@@ -31,6 +32,8 @@ import { Input } from '@components/Input/Input';
 import { Button } from '@components/Button/Button';
 import { PhoneInput } from '@components/PhoneInput/PhoneInput';
 
+import { AppError } from '@utils/AppError';
+
 // tamanho avatar
 const PHOTO_SIZE = 88;
 
@@ -45,11 +48,15 @@ interface FormDataProps {
 export const Register = () => {
 	const [photoIsLoading, setPhotoIsLoading] = useState(true);
 	const [userPhoto, setUserPhoto] = useState(
-		'https://thumbs.dreamstime.com/b/vector-de-perfil-avatar-predeterminado-foto-usuario-medios-sociales-icono-183042379.jpg'
+		{} as ImagePicker.ImagePickerAsset
 	);
 	const [showPassword, setShowPassword] = useState(false);
 
+	console.log(userPhoto);
+
 	const navigation = useNavigation<AuthNavigatorRoutesProps>();
+
+	const toast = useToast();
 
 	const { colors } = useTheme();
 
@@ -107,20 +114,29 @@ export const Register = () => {
 					// conversão tamanho da foto de bytes (B) para megabytes (MB)
 					const PHOTO_SIZE_IN_MB = photoInfo.size / 1024 / 1024;
 
-          if (PHOTO_SIZE_IN_MB > 5) {
-            return Alert.alert(
-              "Tamanho máximo excedido",
-              "Essa imagem é muito grande. Escolha uma de até 5MB."
-            );
-          }
+					if (PHOTO_SIZE_IN_MB > 5) {
+						return toast.show({
+							title: 'Essa imagem é muito grande. Escolha uma de até 5MB.',
+							placement: 'top',
+							bgColor: 'red.500',
+						});
+					}
 
-          setUserPhoto(photoSelected.assets[0].uri);
+					setUserPhoto(photoSelected.assets[0]);
 				}
-        
-        
 			}
 		} catch (error) {
-			throw error;
+			const isAppError = error instanceof AppError;
+
+			const title = isAppError
+				? error.message
+				: 'Não foi possível selecionar uma imagem no momento. Tente novamente mais tarde.';
+
+			toast.show({
+				title,
+				placement: 'top',
+				bgColor: 'red.500',
+			});
 		} finally {
 			setPhotoIsLoading(false);
 		}
@@ -185,7 +201,7 @@ export const Register = () => {
 						) : (
 							<UserPhoto
 								source={{
-									uri: userPhoto,
+									uri: userPhoto.uri,
 								}}
 								alt='Foto do usuário'
 								size={PHOTO_SIZE}
