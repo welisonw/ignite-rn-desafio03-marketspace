@@ -16,6 +16,8 @@ import {
 } from 'native-base';
 import { Platform } from 'react-native';
 
+import { useAuthContext } from '@hooks/useAuthContext';
+
 import * as yup from 'yup';
 import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -26,6 +28,8 @@ import { Eye, EyeClosed, PencilSimpleLine } from 'phosphor-react-native';
 
 import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
+
+import { api } from '@services/api';
 
 import { UserPhoto } from '@components/UserPhoto/UserPhoto';
 import { Input } from '@components/Input/Input';
@@ -48,13 +52,13 @@ interface FormDataProps {
 }
 
 export const Register = () => {
-  const [photoIsLoading, setPhotoIsLoading] = useState(false);
+	const [photoIsLoading, setPhotoIsLoading] = useState(false);
 	const [userPhoto, setUserPhoto] = useState(
 		{} as ImagePicker.ImagePickerAsset
 	);
 	const [showPassword, setShowPassword] = useState(false);
 
-	console.log(userPhoto);
+	const { signIn } = useAuthContext();
 
 	const navigation = useNavigation<AuthNavigatorRoutesProps>();
 
@@ -87,6 +91,7 @@ export const Register = () => {
 
 	const {
 		control,
+		getValues,
 		handleSubmit,
 		formState: { errors, isSubmitting },
 	} = useForm<FormDataProps>({
@@ -144,8 +149,66 @@ export const Register = () => {
 		}
 	}
 
-	function handleRegister() {
-		console.log('registrado');
+	async function handleRegister({
+		name,
+		email,
+		telephone,
+		password,
+	}: FormDataProps) {
+		try {
+			//tratamento da imagem para db
+			const IMAGE_EXTENSION = userPhoto.uri?.split('.').pop();
+
+			const photoFile = {
+				name: `${name}.${IMAGE_EXTENSION}`
+					.trim()
+					.replaceAll(' ', '-')
+					.toLowerCase(),
+				uri: userPhoto.uri,
+				type: `${userPhoto.type}/${IMAGE_EXTENSION}`,
+			} as any;
+
+			// formatação telefone para db
+			const phoneNumberFormatted = telephone.replace(/\D/g, '');
+
+			// post criação usuário
+			const formData = new FormData();
+
+			if (userPhoto.uri) {
+				formData.append('avatar', photoFile);
+			} else {
+				return toast.show({
+					title: 'É obrigatório o envio de uma imagem.',
+					placement: 'top',
+					bgColor: 'red.500',
+				});
+			}
+
+			formData.append('name', name);
+			formData.append('email', email);
+			formData.append('tel', phoneNumberFormatted);
+			formData.append('password', password);
+
+			await api.post('/users', formData, {
+				headers: {
+					'Content-Type': 'multipart/form-data',
+				},
+			});
+
+			await signIn(email, password);
+		} catch (error) {
+			const isAppError = error instanceof AppError;
+
+			const title = isAppError
+				? error.message
+				: 'Não foi possível criar sua conta. Tente novamente mais tarde.';
+
+			toast.show({
+				title,
+				placement: 'top',
+				bgColor: 'red.500',
+			});
+		}
 	}
 
 	function handleGoSignIn() {
@@ -202,7 +265,9 @@ export const Register = () => {
 							/>
 						) : (
 							<UserPhoto
-								source={userPhoto.uri ? userPhoto.uri : DEFAULT_USER_PHOTO}
+								source={
+									userPhoto.uri ? { uri: userPhoto.uri } : DEFAULT_USER_PHOTO
+								}
 								alt='Foto do usuário'
 								size={PHOTO_SIZE}
 								borderWidth={3}
