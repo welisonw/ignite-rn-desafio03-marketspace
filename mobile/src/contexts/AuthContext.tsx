@@ -9,6 +9,7 @@ import { storageGetUser } from '@storage/user/getUser';
 import { storageRemoveUser } from '@storage/user/removeUser';
 import { storageGetAuthToken } from '@storage/authToken/getAuthToken';
 import { storageSaveAuthToken } from '@storage/authToken/saveAuthToken';
+import { storageRemoveAuthToken } from '@storage/authToken/removeAuthToken';
 
 interface AuthContextProps {
 	user: UserDTO;
@@ -66,6 +67,7 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
 			setUser({} as UserDTO);
 
 			await storageRemoveUser();
+      await storageRemoveAuthToken();
 		} catch (error) {
 			throw error;
 		} finally {
