@@ -7,7 +7,10 @@ import { api } from '@services/api';
 import { storageSaveUser } from '@storage/user/saveUser';
 import { storageGetUser } from '@storage/user/getUser';
 import { storageRemoveUser } from '@storage/user/removeUser';
-import { storageAuthTokenSave } from '@storage/authToken/authToken';
+import {
+	storageAuthTokenSave,
+	storageGetAuthToken,
+} from '@storage/authToken/authToken';
 
 interface AuthContextProps {
 	user: UserDTO;
@@ -23,16 +26,13 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
 	const [isLoadingUserStorageData, setIsLoadingUserStorageData] =
 		useState(true);
 
-	async function storageUserAndToken(user: UserDTO, token: string) {
+	async function UserAndTokenUpdate(user: UserDTO, token: string) {
 		try {
 			setIsLoadingUserStorageData(true);
 
-			setUser(user);
-
 			api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
-			await storageSaveUser(user);
-			await storageAuthTokenSave(token);
+			setUser(user);
 		} catch (error) {
 			throw error;
 		} finally {
@@ -49,7 +49,10 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
 			console.log(data);
 
 			if (data.user && data.token) {
-				storageUserAndToken(data.user, data.token);
+				UserAndTokenUpdate(data.user, data.token);
+
+				await storageSaveUser(data.user);
+				await storageAuthTokenSave(data.token);
 			}
 		} catch (error) {
 			throw error;
@@ -77,9 +80,10 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
 			setIsLoadingUserStorageData(true);
 
 			const userSavedInStorage = await storageGetUser();
+			const token = await storageGetAuthToken();
 
-			if (userSavedInStorage) {
-				setUser(userSavedInStorage);
+			if (userSavedInStorage && token) {
+				UserAndTokenUpdate(userSavedInStorage, token);
 			}
 		} catch (error) {
 			throw error;
