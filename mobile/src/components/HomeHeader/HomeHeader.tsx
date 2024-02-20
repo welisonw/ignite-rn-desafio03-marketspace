@@ -3,12 +3,19 @@ import { HStack, Heading, Text, VStack, useTheme } from 'native-base';
 import { useNavigation } from '@react-navigation/native';
 import { AppStackNavigationRoutesProps } from '@routes/app/Stack.routes';
 
+import { useAuthContext } from '@hooks/useAuthContext';
+
+import DEFAULT_USER_PHOTO from '@assets/default-user-photo.png';
+
 import { UserPhoto } from '@components/UserPhoto/UserPhoto';
 import { Button } from '@components/Button/Button';
 import { Plus } from 'phosphor-react-native';
+import { api } from '@services/api';
 
 export const HomeHeader = () => {
 	const navigation = useNavigation<AppStackNavigationRoutesProps>();
+
+	const { user } = useAuthContext();
 
 	const { colors } = useTheme();
 
@@ -19,9 +26,11 @@ export const HomeHeader = () => {
 	return (
 		<HStack alignItems='center' marginBottom={8}>
 			<UserPhoto
-				source={{
-					uri: 'https://thumbs.dreamstime.com/b/vector-de-perfil-avatar-predeterminado-foto-usuario-medios-sociales-icono-183042379.jpg',
-				}}
+				source={
+					user.avatar
+						? { uri: `${api.defaults.baseURL}/images/${user.avatar}` }
+						: DEFAULT_USER_PHOTO
+				}
 				alt='Foto do usuário'
 				size={45}
 				borderWidth={2}
@@ -35,7 +44,7 @@ export const HomeHeader = () => {
 				</Text>
 
 				<Heading fontFamily='heading' fontSize='md' color='gray.700'>
-					Usuário!
+					{user.name}!
 				</Heading>
 			</VStack>
 
