@@ -5,6 +5,8 @@ import {
 
 import { useTheme } from 'native-base';
 
+import { useAuthContext } from '@hooks/useAuthContext';
+
 import { Home } from '@screens/app/Home/Home';
 import { MyAdvertisements } from '@screens/app/MyAdvertisements/MyAdvertisements';
 import { Logout } from '@screens/app/Logout/Logout';
@@ -23,6 +25,8 @@ const { Navigator, Screen } = createBottomTabNavigator<AppTabRoutes>();
 
 export const TabRoutes = () => {
 	const { colors, fontSizes, sizes } = useTheme();
+
+	const { signOut } = useAuthContext();
 
 	const ICON_SIZE = fontSizes.xl;
 
@@ -80,6 +84,13 @@ export const TabRoutes = () => {
 							color={colors.red[400]}
 						/>
 					),
+				}}
+				listeners={{
+					tabPress: event => {
+						event.preventDefault();
+
+						signOut();
+					},
 				}}
 			/>
 		</Navigator>

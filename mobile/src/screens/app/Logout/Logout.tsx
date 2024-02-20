@@ -1,9 +1,5 @@
-import { Center, Text } from 'native-base';
+import { Loading } from '@components/Loading/Loading';
 
 export const Logout = () => {
-	return (
-		<Center flex={1}>
-			<Text>Saindo...</Text>
-		</Center>
-	);
+	return <Loading />;
 };
